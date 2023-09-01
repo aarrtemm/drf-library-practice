@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     "library",
     "rest_framework",
     "rest_framework_simplejwt",
+    "user",
 ]
+
+AUTH_USER_MODEL = "user.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
