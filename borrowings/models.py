@@ -21,7 +21,9 @@ class Borrowing(models.Model):
         null=True, blank=True, validators=[validate_future_date]
     )
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="borrowing")
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="borrowing"
+    )
 
     def __str__(self):
         return f"{self.user} | {self.book} | {self.borrow_date}"
