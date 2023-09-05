@@ -12,7 +12,6 @@ from borrowings.serializers import (
 
 class BorrowingView(
     mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
     mixins.ListModelMixin,
     GenericViewSet,
 ):
