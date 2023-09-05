@@ -20,7 +20,7 @@ class Borrowing(models.Model):
     actual_return_date = models.DateField(
         null=True, blank=True, validators=[validate_future_date]
     )
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="borrowing")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
