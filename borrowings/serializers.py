@@ -12,5 +12,18 @@ class BorrowingSerializer(serializers.ModelSerializer):
             "expected_return_date",
             "actual_return_date",
             "book",
-            "user",
+        )
+
+
+class BorrowingListSerializer(BorrowingSerializer):
+    book = serializers.SlugRelatedField(source="book", many=False, read_only=True)
+
+    class Meta:
+        model = Borrowing
+        fields = (
+            "id",
+            "borrow_date",
+            "expected_return_date",
+            "actual_return_date",
+            "book",
         )
