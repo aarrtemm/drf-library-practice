@@ -22,4 +22,5 @@ urlpatterns = [
     path("api/library/", include("library.urls", namespace="library")),
     path("api/users/", include("user.urls", namespace="user")),
     path("api/", include("borrowings.urls", namespace="borrowing")),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
