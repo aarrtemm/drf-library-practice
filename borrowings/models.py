@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 
 from library.models import Book
 from library_service import settings
@@ -16,7 +17,10 @@ class Borrowing(models.Model):
         auto_now_add=True,
         validators=[validate_future_date],
     )
-    expected_return_date = models.DateField(validators=[validate_future_date])
+    expected_return_date = models.DateField(
+        validators=[validate_future_date],
+        default=timezone.now() + timezone.timedelta(days=7),
+    )
     actual_return_date = models.DateField(
         null=True, blank=True, validators=[validate_future_date]
     )
