@@ -67,8 +67,6 @@ class BorrowingView(
                 actual_return_date=actual_return_date,
             )
 
-            serializer = self.get_serializer(data=borrowing)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
+            serializer = self.get_serializer(borrowing)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
