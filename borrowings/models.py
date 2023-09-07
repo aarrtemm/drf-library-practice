@@ -24,6 +24,7 @@ class Borrowing(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="borrowing"
     )
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.user} | {self.book} | {self.borrow_date}"
