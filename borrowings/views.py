@@ -23,6 +23,8 @@ class BorrowingView(
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        if self.request.user.is_staff:
+            return Borrowing.objects.all()
         return Borrowing.objects.filter(user=self.request.user)
 
     def get_serializer_class(self):
