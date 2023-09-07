@@ -27,6 +27,7 @@ class BorrowingListSerializer(BorrowingSerializer):
             "expected_return_date",
             "actual_return_date",
             "book",
+            "is_active",
         )
 
 
@@ -41,4 +42,5 @@ class BorrowingDetailSerializer(BorrowingSerializer):
             "expected_return_date",
             "actual_return_date",
             "book",
+            "is_active",
         )
