@@ -1,4 +1,5 @@
 from django.db import transaction
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins, status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -21,8 +22,12 @@ class BorrowingView(
 ):
     serializer_class = BorrowingSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["is_active", "user_id"]
 
     def get_queryset(self):
+        if self.request.user.is_staff:
+            return Borrowing.objects.all()
         return Borrowing.objects.filter(user=self.request.user)
 
     def get_serializer_class(self):
