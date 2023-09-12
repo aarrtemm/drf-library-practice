@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import transaction
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
@@ -29,7 +31,7 @@ class BorrowingView(
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Borrowing.objects.all()
+            return Borrowing.objects.all().select_related("book")
         return Borrowing.objects.filter(user=self.request.user)
 
     def get_serializer_class(self):
@@ -47,8 +49,16 @@ class BorrowingView(
     def create(self, request, *args, **kwargs):
         book_id = request.data.get("book")
         user = request.user
-        expected_return_date = request.data.get("expected_return_date")
+        expected_return_date = request.data.get(
+            "expected_return_date", str(datetime.today().date())
+        )
         actual_return_date = request.data.get("actual_return_date")
+
+        if expected_return_date < str(datetime.today().date()):
+            return Response(
+                {"error": "Expected return date cannot be in the past"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         with transaction.atomic():
             try:

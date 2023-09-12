@@ -18,8 +18,10 @@ class Borrowing(models.Model):
         validators=[validate_future_date],
     )
     expected_return_date = models.DateField(
+        null=True,
+        blank=True,
         validators=[validate_future_date],
-        default=timezone.now() + timezone.timedelta(days=7),
+        default=(timezone.now() + timezone.timedelta(days=7)).date(),
     )
     actual_return_date = models.DateField(
         null=True, blank=True, validators=[validate_future_date]
