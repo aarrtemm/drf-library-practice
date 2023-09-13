@@ -91,6 +91,7 @@ class BorrowingView(
 
     @action(methods=["GET"], detail=True, url_path="return")
     def return_borrowing(self, request, pk=None):
+        """Mark a borrowing as returned and update the book's inventory."""
         borrowing = self.get_object()
 
         if borrowing.actual_return_date:
