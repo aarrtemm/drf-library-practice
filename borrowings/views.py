@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import transaction
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import mixins, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -90,6 +91,7 @@ class BorrowingView(
 
     @action(methods=["GET"], detail=True, url_path="return")
     def return_borrowing(self, request, pk=None):
+        """Mark a borrowing as returned and update the book's inventory."""
         borrowing = self.get_object()
 
         if borrowing.actual_return_date:
@@ -109,3 +111,18 @@ class BorrowingView(
         return Response(
             {"message": "Borrowing returned successfully."}, status=status.HTTP_200_OK
         )
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "is_active",
+                type=bool,
+                description="Filtering by is_active bool (ex. ?is_active=true)",
+            ),
+            OpenApiParameter(
+                "user_id", type=int, description="Filtering by user id (ex. ?user_id=1)"
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
